@@ -121,7 +121,7 @@ void saveResults(const std::string& filename, int N, const CPUMetrics& cpu_metri
 
 int main() {
     std::vector<int> sizes = {128, 256, 512, 1024, 2048, 4096};
-    const std::string results_file = "matrix_multiplication_results.csv";
+    const std::string results_file = "results.csv";
     
     for (int N : sizes) {
         // Initialize matrices

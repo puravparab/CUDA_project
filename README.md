@@ -6,16 +6,35 @@ The goal of this project is to compare matrix multiplication performance on vary
 
 ## Setup
 
-Compile and run
+Clone repository
 ```
-nvcc -x cu main.cpp matmul.cpp matmul.cu -o matrix_multiply
-./matrix_multiply
+git clone https://github.com/puravparab/CUDA_project.git
+cd CUDA_project
 ```
 
-Visualize results
+Compile
+```
+nvcc -x cu main.cpp matmul.cpp matmul.cu -o matmul
+```
+Run executable
+```
+./matmul
+```
+
+## Visualize results
+
+Create virtual environment for python
 ```
 python -m venv venv
 source venv/bin/activate
+```
+
+Install required libraries
+```
 pip install pandas matplotlib seaborn
+```
+
+Create plots (Make sure results.csv exists)
+```
 python3 viz.py
 ```

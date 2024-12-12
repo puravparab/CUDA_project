@@ -1,42 +1,59 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
+import os
+
+# Create images directory if it doesn't exist
+if not os.path.exists('images'):
+    os.makedirs('images')
 
 # Read the performance data
-data = pd.read_csv('detailed_performance.csv')
+data = pd.read_csv('data/results.csv')
 
-# Create multiple plots
-fig, axes = plt.subplots(2, 2, figsize=(15, 15))
+# Set seaborn style
+sns.set_theme(style="darkgrid")
+figure_size = (10, 6)
 
-# Time comparison
-axes[0,0].plot(data['MatrixSize'], data['CPU_Time'], 'b-o', label='CPU')
-axes[0,0].plot(data['MatrixSize'], data['Total_GPU_Time'], 'r-o', label='GPU Total')
-axes[0,0].plot(data['MatrixSize'], data['GPU_Kernel_Time'], 'g-o', label='GPU Kernel')
-axes[0,0].set_xlabel('Matrix Size')
-axes[0,0].set_ylabel('Time (ms)')
-axes[0,0].set_title('Execution Time Comparison')
-axes[0,0].legend()
-axes[0,0].set_yscale('log')
+# 1. Time comparison plot
+plt.figure(figsize=figure_size)
+sns.lineplot(data=data, x='Matrix_Size', y='CPU_Time_ms', marker='o', label='CPU')
+sns.lineplot(data=data, x='Matrix_Size', y='GPU_Total_Time_ms', marker='o', label='GPU')
+# sns.lineplot(data=data, x='Matrix_Size', y='GPU_Kernel_Time_ms', marker='o', label='GPU Kernel')
+plt.xlabel('Matrix size (N X N)')
+plt.ylabel('Execution time (ms)')
+plt.title('CPU vs GPU Execution Time ')
+plt.yscale('log')
+plt.savefig('images/execution_time_comparison.png', dpi=300, bbox_inches='tight')
+plt.close()
 
-# Memory transfer breakdown
-axes[0,1].plot(data['MatrixSize'], data['Memory_H2D_Time'], 'b-o', label='Host to Device')
-axes[0,1].plot(data['MatrixSize'], data['Memory_D2H_Time'], 'r-o', label='Device to Host')
-axes[0,1].set_xlabel('Matrix Size')
-axes[0,1].set_ylabel('Time (ms)')
-axes[0,1].set_title('Memory Transfer Times')
-axes[0,1].legend()
+# 2. Memory transfer breakdown
+plt.figure(figsize=figure_size)
+sns.lineplot(data=data, x='Matrix_Size', y='GPU_H2D_Time_ms', marker='o', label='Host to Device')
+sns.lineplot(data=data, x='Matrix_Size', y='GPU_D2H_Time_ms', marker='o', label='Device to Host')
+plt.xlabel('Matrix Size')
+plt.ylabel('Time (ms)')
+plt.title('Memory Transfer Times')
+plt.savefig('images/memory_transfer_times.png', dpi=300, bbox_inches='tight')
+plt.close()
 
-# Performance metrics
-axes[1,0].plot(data['MatrixSize'], data['Memory_Bandwidth'], 'b-o')
-axes[1,0].set_xlabel('Matrix Size')
-axes[1,0].set_ylabel('GB/s')
-axes[1,0].set_title('Memory Bandwidth')
+# 3. GFLOPS Comparison
+plt.figure(figsize=figure_size)
+sns.lineplot(data=data, x='Matrix_Size', y='CPU_GFLOPS', marker='o', label='CPU')
+sns.lineplot(data=data, x='Matrix_Size', y='GPU_GFLOPS', marker='o', label='GPU')
+plt.xlabel('Matrix Size')
+plt.ylabel('Performance (GFLOPS)')
+plt.title('Computational Performance Comparison')
+plt.savefig('images/gflops_comparison.png', dpi=300, bbox_inches='tight')
+plt.close()
 
-# GFLOPS
-axes[1,1].plot(data['MatrixSize'], data['GFLOPS'], 'r-o')
-axes[1,1].set_xlabel('Matrix Size')
-axes[1,1].set_ylabel('GFLOPS')
-axes[1,1].set_title('Computational Performance')
+# 4. Numerical Accuracy
+plt.figure(figsize=figure_size)
+sns.lineplot(data=data, x='Matrix_Size', y='Max_Difference', marker='o', color='red')
+plt.xlabel('Matrix Size')
+plt.ylabel('Maximum Absolute Difference')
+plt.title('CPU vs GPU Result Accuracy')
+plt.yscale('log')
+plt.savefig('images/numerical_accuracy.png', dpi=300, bbox_inches='tight')
+plt.close()
 
-plt.tight_layout()
-plt.show()
+print("Plots have been saved in the 'images' directory.")
