@@ -19,6 +19,8 @@ struct PerformanceMetrics {
 	int matrix_size;         // N x N
 };
 
+void saveMetricsToCSV(const PerformanceMetrics& metrics);
+
 void measurePerformance(
 	int N, std::vector<float>& A, std::vector<float>& B, std::vector<float>& C_cpu, std::vector<float>& C_gpu
 ) {

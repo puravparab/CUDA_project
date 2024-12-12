@@ -1,6 +1,4 @@
-#include <iostream>
-#include <chrono>
-#include <vector>
+#include "matmul.h"
 
 // CPU Matrix Multiplication
 void matrixMultCPU(
