@@ -43,6 +43,7 @@ sns.lineplot(data=data, x='Matrix_Size', y='GPU_GFLOPS', marker='o', label='GPU'
 plt.xlabel('Matrix Size')
 plt.ylabel('Performance (GFLOPS)')
 plt.title('Computational Performance Comparison')
+plt.yscale('log')
 plt.savefig('images/gflops_comparison.png', dpi=300, bbox_inches='tight')
 plt.close()
 
