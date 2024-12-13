@@ -11,7 +11,7 @@ if not os.path.exists('images'):
 data = pd.read_csv('data/results.csv')
 
 # Set seaborn style
-sns.set_theme(style="darkgrid")
+sns.set_theme(style="white")
 figure_size = (10, 6)
 
 # 1. Time comparison plot
